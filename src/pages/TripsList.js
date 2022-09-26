@@ -1,8 +1,10 @@
 import { useState, useEffect} from 'react';
 import SpinnerLoading from '../components/SpinnerLoading';
 import {getTrips} from "../utils/api"
-import {Row, Col} from 'react-bootstrap';
+import {Row, Col, Card, Button} from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import TripCard from '../components/TripCard';
+
 
 export default function TripsList() {
     const [trips, setTrips] = useState([])
@@ -10,7 +12,9 @@ export default function TripsList() {
 
     useEffect (() => {
         getTrips().then((res) => {
+
             setTrips(JSON.parse(res.data));
+            console.log(res.data)
              setLoading(false);
         })
     }, [])
