@@ -24,12 +24,42 @@ export function createTrip(data) {
   })
 }
 
+export function updateTrip(tripId, data) {
+  return client.put(`/trips/${tripId}`, JSON.stringify(data), {
+    headers: {
+      "Content-Type": 'application/json'
+    }
+  })
+}
+
+export function createReview(data) {
+  return client.post('/reviews', JSON.stringify(data), {
+    headers: {
+      "Content-Type" : "application/json"
+    }
+  })
+}
+
 export function register(data) {
-    return client.post("/auth/signup", JSON.stringify(data), 
-    {
+    return client.post("/auth/signup", JSON.stringify(data), {
       headers: {
         "Content-Type": "application/json"
       },
-    }
-    );
+    });
+  }
+
+  export function login(data) {
+    return client.post("/auth/login", JSON.stringify(data), {
+      headers: {
+        "Content-Type": "application/json"
+      },
+    });
+  }
+
+  export function verifyToken(token) {
+    return client.get('/auth/verify', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
   }

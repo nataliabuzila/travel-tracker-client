@@ -14,6 +14,8 @@ export default function TripCreate () {
 
     const navigate = useNavigate();
 
+    const [date, setDate] = useState('')
+
     const handleSubmit = (values) => {
         //  console.log (values)
         createTrip(values).then((res) => {
@@ -61,6 +63,24 @@ export default function TripCreate () {
                             </Form.Label>
                             <Col sm={10}>
                             <Form.Control type="text" placeholder="city" />
+                            </Col>
+                        </Form.Group>
+
+                        <Form.Group as={Row} className="mb-3" controlId="startDate">
+                            <Form.Label column sm={2}>
+                            Start date
+                            </Form.Label>
+                            <Col sm={10}>
+                            <Form.Control type="date" />
+                            </Col>
+                        </Form.Group>
+
+                        <Form.Group as={Row} className="mb-3" controlId="endDate">
+                            <Form.Label column sm={2}>
+                            End date
+                            </Form.Label>
+                            <Col sm={10}>
+                            <Form.Control type="date" />
                             </Col>
                         </Form.Group>
 

@@ -18,7 +18,7 @@ export default function TripDetails() {
         getTrip(tripId).then((res) =>{
             setTrip(JSON.parse(res.data));
             setLoading(false)
-;        })
+        })
     }, [tripId])
 
     const handleConfirm = () => {
@@ -41,7 +41,7 @@ export default function TripDetails() {
                 </div>
 
                 <Card.Text> Country: {trip.country}, City: {trip.city} </Card.Text>
-                {/* <Card.Text> Start date: {trip.startDate}, End date: {trip.endDate} </Card.Text> */}
+                <Card.Text> Start date: {trip.startDate}, End date: {trip.endDate} </Card.Text>
                 <Card.Text> Status: {trip.status}, Type: {trip.publicOrPrivate} </Card.Text>
                 <Card.Text>{trip.description}</Card.Text>
 

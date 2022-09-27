@@ -6,11 +6,13 @@ export default function TripCard({trip}) {
         <Card>
             <Card.Img variant="top" src={trip.imageURL}/>
             <Card.Body>
-                <Card.Title>{trip.title}</Card.Title>
+                <div>
+                    <Card.Title>{trip.title}</Card.Title>
+                    <LinkContainer to={`/trips/${trip._id}`}>
+                        <Button variant="secondary">Details</Button>
+                    </LinkContainer>
+                </div>
                 <Card.Text>{trip.description}</Card.Text>
-                <LinkContainer to={`/trips/${trip._id}`}>
-                    <Button variant="secondary">Details</Button>
-                </LinkContainer>
             </Card.Body>
             <Card.Footer>
                 <small className="text-muted">by {trip.owner.name}</small>
