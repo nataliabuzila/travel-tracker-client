@@ -9,7 +9,7 @@ import ReviewCreate from "../pages/ReviewCreate"
 export default function TripDetails() {
 
     const { tripId } = useParams();
-    const {trip, setTrip} = useState(null)
+    const [trip, setTrip] = useState(null)
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate();
 

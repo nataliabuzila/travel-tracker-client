@@ -4,14 +4,12 @@ import {getTrips} from "../utils/api"
 import {Row, Col} from 'react-bootstrap';
 import TripCard from '../components/TripCard';
 
-
 export default function TripsList() {
     const [trips, setTrips] = useState([])
     const [loading, setLoading] = useState (true);
 
     useEffect (() => {
         getTrips().then((res) => {
-
             setTrips(JSON.parse(res.data));
             console.log(res.data)
              setLoading(false);

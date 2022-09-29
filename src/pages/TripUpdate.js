@@ -1,4 +1,4 @@
-import React, { useState, useParams, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -7,7 +7,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import {Card} from 'react-bootstrap';
 import { getTrip, updateTrip } from '../utils/api';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SpinnerLoading from '../components/SpinnerLoading';
 
 export default function TripUpdate () {
@@ -17,20 +17,34 @@ export default function TripUpdate () {
     const navigate = useNavigate();
     const {tripId} = useParams()
 
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [country, setCountry] = useState("");
+    const [city, setCity] = useState("");
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState();
+    const [upload, setUpload] = useState();
+    const [status, setStatus] = useState("planned")
+    const [publicOrPrivate, setPublicOrPrivate] = useState("private")
+
+
     //retrieve the trip data from API
     useEffect(() => {
         getTrip(tripId).then((res) => {
             setTrip(JSON.parse(res.data))
+            //console.log(res.data)
             setLoading(false)
         })
     }, [tripId])
 
 
-    const handleSubmit = (values) => {
-        //  console.log (values)
-        updateTrip(tripId, values).then((res) => {
+    const handleSubmit = (e) => {
+        //console.log (e)
+        e.preventDefault();
+        updateTrip(tripId, e).then((res) => {
             //  console.log("it worked")
             const data = JSON.parse(res.data)
+
             navigate(`/trips/${data._id}`)
     
         })
@@ -42,21 +56,29 @@ export default function TripUpdate () {
         <Row className="justify-content-center" style={{height: '100%'}}>
             <Col>
                 <Card className='create-trip-form' style={{ width: '50rem' }}>
-                <Card.Title className="text-center">`Update trip ${trip.title}`</Card.Title>
+                    <Card.Title className="text-center">Update trip {trip.title}</Card.Title>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group as={Row} className="mb-3" controlId="title">
                             <Form.Label column sm={2}>
                             Title
                             </Form.Label>
                             <Col sm={10}>
-                            <Form.Control required type="text" placeholder={trip.title} />
+                            <Form.Control required type="text" placeholder={trip.title} 
+                                value={title} 
+                                onChange={e=>setTitle(e.target.value)}
+                            />
                             </Col>
                         </Form.Group>
 
                         <Form.Group as={Row} className="mb-3" controlId="description">
-                            <Form.Label column sm={2}>Description</Form.Label>
+                            <Form.Label column sm={2}>
+                            Description
+                            </Form.Label>
                             <Col sm={10}>
-                            <Form.Control as="textarea" rows={3} placeholder={trip.description}/>
+                            <Form.Control as="textarea" rows={3} placeholder={trip.description}
+                                value={description}
+                                onChange={e=>setDescription(e.target.value)}
+                            />
                             </Col>
                         </Form.Group>
 
@@ -65,7 +87,10 @@ export default function TripUpdate () {
                             Country
                             </Form.Label>
                             <Col sm={10}>
-                            <Form.Control type="text" placeholder={trip.country}/>
+                            <Form.Control type="text" placeholder={trip.country}
+                                value={country}
+                                onChange={e=>setCountry(e.target.value)}
+                            />
                             </Col>
                         </Form.Group>
 
@@ -74,7 +99,34 @@ export default function TripUpdate () {
                             City
                             </Form.Label>
                             <Col sm={10}>
-                            <Form.Control type="text" placeholder={trip.city} />
+                            <Form.Control type="text" placeholder={trip.city} 
+                                value={city}
+                                onChange={e=>setCity(e.target.value)}
+                            />
+                            </Col>
+                        </Form.Group>
+
+                        <Form.Group as={Row} className="mb-3" controlId="startDate">
+                            <Form.Label column sm={2}>
+                            Start date
+                            </Form.Label>
+                            <Col sm={10}>
+                            <Form.Control type="date" 
+                                value={startDate}
+                                onChange={e=>setStartDate(e.target.value)}
+                            />
+                            </Col>
+                        </Form.Group>
+
+                        <Form.Group as={Row} className="mb-3" controlId="endDate">
+                            <Form.Label column sm={2}>
+                            End date
+                            </Form.Label>
+                            <Col sm={10}>
+                            <Form.Control type="date" 
+                                value={endDate}
+                                onChange={e=>setEndDate(e.target.value)}
+                            />
                             </Col>
                         </Form.Group>
 
@@ -83,7 +135,10 @@ export default function TripUpdate () {
                             Upload photo
                             </Form.Label>
                             <Col sm={10}>
-                            <Form.Control type="file" name="file" placeholder={trip.imageURL}/>
+                            <Form.Control type="file" name="file" 
+                                value={upload}
+                                onChange={e=>setUpload(e.target.value)}
+                            />
                             </Col>
                         </Form.Group>
 
@@ -91,8 +146,10 @@ export default function TripUpdate () {
                             <Form.Check
                             type="checkbox"
                             name="status"
-                            label="Completed"
+                            label={trip.status}
                             id="status"
+                            checked={status}
+                            onChange={e=>setStatus(e.target.value)}
                             />
                         </Form.Group>
 
@@ -100,8 +157,10 @@ export default function TripUpdate () {
                             <Form.Check
                             type="checkbox"
                             name="publicOrPrivate"
-                            label="Public"
+                            label={trip.publicOrPrivate}
                             id="publicOrPrivate"
+                            checked={publicOrPrivate}
+                            onChange={e=>setPublicOrPrivate(e.target.value)}
                             />
                         </Form.Group>
                         

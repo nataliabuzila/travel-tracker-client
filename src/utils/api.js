@@ -1,5 +1,18 @@
 import { Axios } from 'axios';
 
+const getCircularReplacer = () => {
+  const seen = new WeakSet();
+  return (key, value) => {
+    if (typeof value === 'object' && value !== null) {
+      if (seen.has(value)) {
+        return;
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+};
+
 const client = new Axios ({
     baseURL: "http://localhost:5005/api"
 })
@@ -17,7 +30,7 @@ export function deleteTrip(tripId) {
 }
 
 export function createTrip(data) {
-  return client.post("/trips", JSON.stringify(data), {
+  return client.post("/trips", data, {
     headers: {
       "Content-Type": "application/json"
     }
