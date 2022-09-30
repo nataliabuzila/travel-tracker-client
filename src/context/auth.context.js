@@ -21,7 +21,7 @@ function AuthProviderWrapper({children}) {
         if (storedToken) {
             const res = await verifyToken(storedToken); //res is the string-object with payload (user data) from "Bearer token"
             setIsLoggedIn(true)
-            setUser(res.data)
+            setUser(JSON.parse(res.data))
             setIsLoading(false)
         } else {
             setIsLoggedIn(false);

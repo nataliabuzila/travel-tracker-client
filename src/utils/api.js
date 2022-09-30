@@ -25,17 +25,17 @@ export function getTrip(tripId) {
     return client.get(`/trips/${tripId}`)
 }
 
-export function deleteTrip(tripId) {
-  return client.delete(`/trips/${tripId}`)
+export function deleteTrip(tripId, ownerId) {
+  return client.delete(`/trips/${ownerId}/${tripId}`)
 }
 
-export function createTrip(data) {
-  return client.post("/trips", data, {
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-}
+// export function createTrip(data) {
+//   return client.post("/trips", data, {
+//     headers: {
+//       "Content-Type": "application/json"
+//     }
+//   })
+// }
 
 export function updateTrip(tripId, data) {
   return client.put(`/trips/${tripId}`, JSON.stringify(data), {

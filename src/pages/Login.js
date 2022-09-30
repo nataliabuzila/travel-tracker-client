@@ -28,6 +28,7 @@ const handleLoginSubmit = async (e) => {
       storeToken(res.data.token);
       // Verify the token by sending a request to the server's JWT validation endpoint.
       authenticateUser();
+      //console.log(res.data.user._id)
       navigate('/');   //MUST UPDATE to user profile page
     })
     .catch((error) => {

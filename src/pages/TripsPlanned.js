@@ -1,16 +1,16 @@
 import { useState, useEffect} from 'react';
-import SpinnerLoading from './SpinnerLoading';
+import SpinnerLoading from '../components/SpinnerLoading';
 import {getTrips} from "../utils/api"
 import {Row, Col} from 'react-bootstrap';
-import TripCard from './TripCard';
+import TripCard from '../components/TripCard';
 import { useSearchParams } from 'react-router-dom';
 
-export default function TripsList() {
+export default function TripsPlanned() {
     const [trips, setTrips] = useState([])
     const [loading, setLoading] = useState (true);
 
-    const [searchParams] = useSearchParams();
-    const filterValue = searchParams.get('show')
+    // const [searchParams] = useSearchParams();
+    // const paramValue = searchParams.get('show')
     
     // const Users = () => {
     //     const [searchParams] = useSearchParams();
@@ -23,12 +23,11 @@ export default function TripsList() {
     //     return <div>Users</div>;
     //   };
 
-
     useEffect (() => {
         getTrips().then((res) => {
 
             setTrips(JSON.parse(res.data));
-            console.log(res.data)
+            //console.log(res.data)
              setLoading(false);
         })
     }, [])
@@ -37,7 +36,7 @@ export default function TripsList() {
 
     return (
         <Row>
-            {trips.filter(trip => trip.publicOrPrivate.includes(searchParams.get('show'))).map((e) => (
+            {trips.filter(trip => trip.status.includes("Planned")).map((e) => (
                 <Col key={e._id}>
                     <TripCard trip={e} />
                 </Col>

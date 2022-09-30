@@ -8,11 +8,18 @@ import TripCreate from "./pages/TripCreate"
 import TripUpdate from "./pages/TripUpdate"
 import ReviewCreate from "./pages/ReviewCreate"
 import IsPrivate from "./components/IsPrivate"
+import TripsPublic from "./pages/TripsPublic"
+import TripsCompleted from "./pages/TripsCompleted"
+import TripsPlanned from "./pages/TripsPlanned"
 
 export default function Navigation () {
     return <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/trips" element={<TripsList />} />
+        {/* <Route path="/trips" element={<TripsList show=""/>} /> */}
+        <Route path="/trips" element={<TripsList/>} />
+        <Route path="/trips/public" element={<TripsPublic />} />
+        <Route path="/trips/completed" element={<TripsCompleted />} />
+        <Route path="/trips/planned" element={<TripsPlanned />} />
         <Route path="/trips/:tripId" element={<IsPrivate> <TripDetails /> </IsPrivate>} />
         <Route path="/trips/new" element={ <IsPrivate> <TripCreate /> </IsPrivate>} />
         <Route path="/trips/:tripId/edit" element={ <IsPrivate> <TripUpdate /> </IsPrivate>} />

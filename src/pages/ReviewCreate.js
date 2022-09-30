@@ -2,7 +2,9 @@ import {Row, Col, Card, Form, Button} from 'react-bootstrap'
 import { createReview } from '../utils/api'
 import {useNavigate} from "react-router-dom"
 
-export default function ReviewCreate() {
+const API_URL = "http://localhost:5005/api"
+
+export default function ReviewCreate(props) {
 
     const navigate = useNavigate();
 
@@ -36,14 +38,14 @@ export default function ReviewCreate() {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} className="position-relative mb-3" controlId="file">
+                        {/* <Form.Group as={Row} className="position-relative mb-3" controlId="file">
                             <Form.Label column sm={2}>
                             Upload photo
                             </Form.Label>
                             <Col sm={10}>
                             <Form.Control type="file" name="file" />
                             </Col>
-                        </Form.Group>
+                        </Form.Group> */}
 
                         <Form.Group className="mb-3">
                             <Form.Check

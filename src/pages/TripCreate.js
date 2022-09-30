@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React, { useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -7,32 +6,56 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import {Card} from 'react-bootstrap';
 import { createTrip } from '../utils/api';
-
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { AuthContext } from '../context/auth.context'
+
+const API_URL = "http://localhost:5005/api"
 
 export default function TripCreate () {
 
     const navigate = useNavigate();
 
+    const {user} = useContext (AuthContext)
  
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [country, setCountry] = useState("");
     const [city, setCity] = useState("");
-    const [startDate, setStartDate] = useState();
-    const [endDate, setEndDate] = useState();
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
     // const [upload, setUpload] = useState();
-    const [status, setStatus] = useState("planned")
-    const [publicOrPrivate, setPublicOrPrivate] = useState("private")
+    const [status, setStatus] = useState("Planned")
+    const [publicOrPrivate, setPublicOrPrivate] = useState("Private")
 
     const handleSubmit = (e) => {
         //  console.log (values)
         e.preventDefault();
-        createTrip(e).then((res) => {
-        //  console.log("it worked")
-        const data = res.data;
-        navigate(`/trips/${data._id}`)
-        })
+        // createTrip(e).then((res) => {
+        // const data = res.data;
+        // navigate(`/trips/${data._id}`)
+        // })
+        
+        const requestBody = { title, description, country, city, startDate, endDate, status, publicOrPrivate, owner: user._id };
+        axios
+          .post(`${API_URL}/trips`, requestBody)
+          .then((response) => {
+            const tripId = response.data.trips[response.data.trips.length-1]
+            //console.log(tripId)
+            // Reset the state
+            setTitle("");
+            setDescription("");
+            setCountry ("");
+            setCity ("");
+            setStartDate("");
+            setEndDate("");
+            setStatus("");
+            setPublicOrPrivate("")
+
+            navigate(`/trips/${tripId}`)
+            // navigate(`/`)
+          })
+          .catch((error) => console.log(error));
     }
 
     return (
@@ -88,6 +111,22 @@ export default function TripCreate () {
                                 />
                                 </Col>
                             </Form.Group>
+{/* 
+                            <label>Start date:</label>
+                            <input
+                            type="date"
+                            name="startDate"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                            />
+
+                            <label>End date:</label>
+                            <input
+                            type="date"
+                            name="endDate"
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
+                            /> */}
 
                             <Form.Group as={Row} className="mb-3" controlId="startDate">
                                 <Form.Label column sm={2}>
@@ -125,7 +164,21 @@ export default function TripCreate () {
                                 </Col>
                             </Form.Group> */}
 
-                            <Form.Group className="mb-3">
+                            <label>Planned or completed </label>
+                            <select value={status} onChange={e=>setStatus(e.target.value)}>
+                                {/* <option disabled>Select status</option> */}
+                                <option value="Planned">Planned</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+
+                            <label>Private or public</label>
+                            <select value={publicOrPrivate} onChange={e=>setPublicOrPrivate(e.target.value)}>
+                                {/* <option disabled>Select type</option> */}
+                                <option value="Private">Private</option>
+                                <option value="Public">Public</option>
+                            </select>
+
+                            {/* <Form.Group className="mb-3">
                                 <Form.Check
                                 type="checkbox"
                                 name="status"
@@ -145,7 +198,7 @@ export default function TripCreate () {
                                 checked={publicOrPrivate}
                                 onChange={e=>setPublicOrPrivate(e.target.value)}
                                 />
-                            </Form.Group>
+                            </Form.Group> */}
                             
                             <Button variant="primary" type="submit" md={{ span: 3, offset: 3 }}>
                                 Submit

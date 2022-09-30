@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import SpinnerLoading from '../components/SpinnerLoading'
 import { getTrip, deleteTrip } from '../utils/api';
 import { Card, Accordion, Button } from 'react-bootstrap';
 import ReviewCreate from "../pages/ReviewCreate"
+import { AuthContext } from '../context/auth.context';
+
 
 
 export default function TripDetails() {
@@ -13,6 +15,7 @@ export default function TripDetails() {
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate();
 
+    const {user} = useContext (AuthContext)
 
     useEffect (() => {
         getTrip(tripId).then((res) =>{
@@ -22,7 +25,8 @@ export default function TripDetails() {
     }, [tripId])
 
     const handleConfirm = () => {
-        deleteTrip(tripId).then(() => {
+
+        deleteTrip(tripId, user._id).then(() => {
             navigate("/", {replace: true}) //replace:true doesnt allow user to navigate back to the page of the deleted trip 
         })
     }
@@ -58,7 +62,7 @@ export default function TripDetails() {
             </Card.Body>
         </Card>
 
-        <ReviewCreate />
+        <ReviewCreate tripId={tripId}/>
 
         </div>
     )

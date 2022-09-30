@@ -16,7 +16,7 @@ export default function Header() {
 
       <Navbar.Collapse id="basic-navbar-nav">
         <Navbar.Brand href="/">Home</Navbar.Brand>
-        <Navbar.Brand href="/trips?show=public">Places and Stories</Navbar.Brand> {/* <- only public trips */}
+        <Navbar.Brand href="/trips/public">Places and Stories</Navbar.Brand> {/* <- only public trips */}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
       </Navbar.Collapse>
 
@@ -24,8 +24,8 @@ export default function Header() {
       <>
         <Navbar.Collapse id="basic-navbar-nav">
           <Navbar.Brand href="/trips">My adventures</Navbar.Brand> {/* <- all trips of a user*/} {/* */}
-          <Navbar.Brand href="/trips?show=planned">My bucket list</Navbar.Brand> {/* <- all "planned" trips of a user */}
-          <Navbar.Brand href="/trips?show=completed">Completed trips</Navbar.Brand> {/* <- all "completed" trips of a user */}
+          <Navbar.Brand href="/trips/planned">My bucket list</Navbar.Brand> {/* <- all "planned" trips of a user */}
+          <Navbar.Brand href="/trips/completed">Completed trips</Navbar.Brand> {/* <- all "completed" trips of a user */}
           <Navbar.Brand href="/trips/new">Add trip</Navbar.Brand> {/* <- add trip */}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
         </Navbar.Collapse>

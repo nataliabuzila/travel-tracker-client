@@ -23,7 +23,7 @@ export default function TripUpdate () {
     const [city, setCity] = useState("");
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
-    const [upload, setUpload] = useState();
+    // const [upload, setUpload] = useState();
     const [status, setStatus] = useState("planned")
     const [publicOrPrivate, setPublicOrPrivate] = useState("private")
 
@@ -130,7 +130,7 @@ export default function TripUpdate () {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} className="position-relative mb-3" controlId="file">
+                        {/* <Form.Group as={Row} className="position-relative mb-3" controlId="file">
                             <Form.Label column sm={2}>
                             Upload photo
                             </Form.Label>
@@ -140,7 +140,7 @@ export default function TripUpdate () {
                                 onChange={e=>setUpload(e.target.value)}
                             />
                             </Col>
-                        </Form.Group>
+                        </Form.Group> */}
 
                         <Form.Group className="mb-3">
                             <Form.Check
