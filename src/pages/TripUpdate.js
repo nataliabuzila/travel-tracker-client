@@ -34,7 +34,6 @@ export default function TripUpdate () {
             setTrip(JSON.parse(res.data))
             //console.log(res.data)
             setLoading(false)
-            setTitle(res.data.title)
         })
     }, [tripId])
 
@@ -64,7 +63,7 @@ export default function TripUpdate () {
                             Title
                             </Form.Label>
                             <Col sm={10}>
-                            <Form.Control required type="text" placeholder={trip.title} 
+                            <Form.Control required type="text"
                                 value={title} 
                                 onChange={e=>setTitle(e.target.value)}
                             />

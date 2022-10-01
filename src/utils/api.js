@@ -38,7 +38,7 @@ export function deleteTrip(tripId, ownerId) {
 // }
 
 export function updateTrip(tripId, data) {
-  return client.put(`/trips/${tripId}`, data, {
+  return client.put(`/trips/${tripId}`, JSON.stringify(data), {
     headers: {
       "Content-Type": 'application/json'
     }

@@ -1,59 +1,64 @@
 import { useContext, useEffect, useState } from "react";
-import { Col, Container, Row, Button, Nav, Card } from "react-bootstrap";
+import { Col, Container, Row, Button, Nav, Card, Tabs, Tab } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import SpinnerLoading from "../components/SpinnerLoading";
 import TripCardPrivate from "../components/TripCardPrivate";
 import { AuthContext } from "../context/auth.context";
 import { deleteUser, getUserById } from "../utils/api";
-
-
+import TripsPlanned from "./TripsPlanned"
+import TripsCompleted from "./TripsCompleted"
+import TripCreate from "./TripCreate";
 
 export default function Profile() {
+  const navigate = useNavigate();
+  const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
 
-    const navigate = useNavigate();
-    const {isLoggedIn, user, logOutUser } = useContext(AuthContext)
+  const { userId } = useParams();
 
-    const {userId} = useParams();
+  const [profile, setProfile] = useState(null);
 
-    const [profile, setProfile] = useState(null);
+  useEffect(() => {
+    // getUserById(user._id).then((response) => { setProfile(response.data) })
+    getUserById(userId).then((res) => {
+      //console.log(res.data)
+      setProfile(JSON.parse(res.data));
+      //console.log(profile)
+    });
+  }, [userId]);
 
-    useEffect(() => {
-        // getUserById(user._id).then((response) => { setProfile(response.data) })
-        getUserById(userId).then((res) => {
-            //console.log(res.data)
-             setProfile(JSON.parse(res.data))
-            //console.log(profile)
-        })
-    }, [userId])
+  const handleConfirm = () => {
+    deleteUser(userId).then(() => {
+      //console.log(userId)
+      logOutUser();
+      navigate("/", { replace: true }); //replace:true doesnt allow user to navigate back to the deleted user page
+    });
+  };
 
-    const handleConfirm = () => {
-        deleteUser(userId).then(() => {
-            //console.log(userId)
-            logOutUser();
-            navigate("/", {replace: true}) //replace:true doesnt allow user to navigate back to the deleted user page
-        })
-    }
-
-if(profile 
+  if (
+    profile
     // && user._id === userId
-     ) {
-    return(
-        <Container className="p-5 mb-4 bg-light rounded-3" >
+  ) {
+    return (
+      <Container className="p-5 mb-4 bg-light rounded-3">
         <Row>
           <Col>
             {/* <img src={profile.avatarURL} alt={profile.name}/> */}
             <h3> Hello, {profile.name}!</h3>
-            <p>Join date: {new Date(profile.registrationDate).toDateString()}</p>
+            <p>
+              Join date: {new Date(profile.registrationDate).toDateString()}
+            </p>
           </Col>
           <Col>
-          <Button variant="outline-secondary" onClick={handleConfirm}>Delete profile</Button>
+            <Button variant="outline-secondary" onClick={handleConfirm}>
+              Delete profile
+            </Button>
           </Col>
         </Row>
         <Row>
           <Col>
             <Card>
-                <Card.Header>
+              {/* <Card.Header>
                     <Nav variant="tabs" defaultActiveKey="#first">
                     <Nav.Item>
                         <Nav.Link href="#first">My adventures</Nav.Link>
@@ -68,28 +73,39 @@ if(profile
                         <Nav.Link href="/trips/new">Add trip</Nav.Link>
                     </Nav.Item>
                     </Nav>
-                </Card.Header>
-                <Card.Body>
+                </Card.Header> */}
 
+              <Card.Body>
+                <Tabs
+                  defaultActiveKey="adventures"
+                  id="uncontrolled-tab-example"
+                  className="mb-3"
+                >
+                  <Tab eventKey="adventures" title="My adventures">
                     {profile.trips.map((e) => (
-                        <Col key={e._id}>
-                            <TripCardPrivate trip={e}/>
-                        </Col>
-
+                    <Col key={e._id}>
+                        <TripCardPrivate trip={e} />
+                    </Col>
                     ))}
-                </Card.Body>
-                </Card>
+                  </Tab>
+                  <Tab eventKey="bucket" title="My bucket list">
+                    <TripsPlanned />
+                  </Tab>
+                  <Tab eventKey="completed" title="Completed trips" >
+                    <TripsCompleted />
+                  </Tab>
+                  <Tab eventKey="new" title="Add trip" >
+                  <TripCreate />
+                  </Tab>
+                </Tabs>
+
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
       </Container>
-    )
-} else {
-    return(
-        <Container>
-
-            Please log in!!
-
-      </Container>
-    )
-}
+    );
+  } else {
+    return <Container>Please log in!!</Container>;
+  }
 }

@@ -1,39 +1,28 @@
-import { useContext, useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import SpinnerLoading from '../components/SpinnerLoading'
-import { getTrip, deleteTrip } from '../utils/api';
-import { Card, Accordion, Button } from 'react-bootstrap';
-import ReviewCreate from "../pages/ReviewCreate"
-import { AuthContext } from '../context/auth.context';
+import { getTrip } from '../utils/api';
+import { Card, Accordion } from 'react-bootstrap';
 
 
 
-export default function TripDetails() {
+export default function TripDetailsPublic() {
 
     const { tripId } = useParams();
     const [trip, setTrip] = useState(null)
     const [loading, setLoading] = useState(true)
-    const navigate = useNavigate();
 
-    const {user, isLoggedIn} = useContext (AuthContext)
 
-    const refreshTrip = () => {
-        getTrip(tripId).then((res) =>{
-            setTrip(JSON.parse(res.data));
-            setLoading(false)
-        })
-    }
     useEffect (() => {
+        const refreshTrip = () => {
+            getTrip(tripId).then((res) =>{
+                setTrip(JSON.parse(res.data));
+                setLoading(false)
+            })
+        }
         refreshTrip();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tripId])
 
-    const handleConfirm = () => {
-        deleteTrip(tripId, user._id).then(() => {
-            console.log(tripId, user._id)
-            navigate("/", {replace: true}) //replace:true doesnt allow user to navigate back to the page of the deleted trip 
-        })
-    }
 
     if(loading) return <SpinnerLoading />;
 
@@ -44,13 +33,6 @@ export default function TripDetails() {
             <Card.Body>
                 <div>
                     <Card.Title>{trip.title}</Card.Title>
-                    {isLoggedIn &&
-                    <>
-                        <Button variant="outline-primary" onClick={() => navigate(`/trips/${trip._id}/edit`)}>Edit</Button>
-                        <Button variant="outline-danger" onClick={handleConfirm}>Delete</Button>
-                    </>
-                    }
-                    
                 </div>
 
                 <Card.Text> Country: {trip.country}, City: {trip.city} </Card.Text>
@@ -71,9 +53,6 @@ export default function TripDetails() {
             </Card.Body>
         </Card>
 
-        {isLoggedIn &&
-         <ReviewCreate refreshTrip={refreshTrip} trip={tripId}/>
-        }
 
         </div>
     )

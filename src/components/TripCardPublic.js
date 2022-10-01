@@ -8,7 +8,7 @@ export default function TripCardPublic({trip}) {
             <Card.Body>
                 <div>
                     <Card.Title>{trip.title}</Card.Title>
-                    <LinkContainer to={`/trips/${trip._id}`}>
+                    <LinkContainer to={`/trips/${trip._id}/public`}>
                         <Button variant="secondary">Details</Button>
                     </LinkContainer>
                 </div>
