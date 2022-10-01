@@ -4,7 +4,7 @@ import { register } from "../utils/api";
 import { Card, Form, Col, Row, Button} from 'react-bootstrap'
 import axios from 'axios';
 
-const API = "http://localhost:5005/api"
+const API = "https://busy-pear-puppy-kilt.cyclic.app/api"
 
 export default function Register() {
   const navigate = useNavigate();

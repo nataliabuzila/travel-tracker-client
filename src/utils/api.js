@@ -14,7 +14,7 @@ import { Axios } from 'axios';
 // };
 
 const client = new Axios ({
-    baseURL: "http://localhost:5005/api"
+    baseURL: "https://busy-pear-puppy-kilt.cyclic.app/api"
 })
 
 export function getTrips() {
