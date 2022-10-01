@@ -1,8 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { Col, Container, Row, Button, Nav, Card, Tabs, Tab } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import { Col, Container, Row, Button, Card, Tabs, Tab } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import SpinnerLoading from "../components/SpinnerLoading";
 import TripCardPrivate from "../components/TripCardPrivate";
 import { AuthContext } from "../context/auth.context";
 import { deleteUser, getUserById } from "../utils/api";
