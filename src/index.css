@@ -119,3 +119,11 @@ main {
   font-size: 1rem;
   opacity: 0.8;
 }
+
+.create-trip-form {
+  width: 100vh;
+}
+
+.create-trip-form-btn {
+  width: 100px;
+}

@@ -3,14 +3,6 @@ import { Container } from "react-bootstrap"
 
 export default function Home() {
 
-    // const [trips, setTrips] = useState([]);
-    // const [loading, setLoading] = useState(true);
-
-    // useEffect(() => {
-    //     getProjects().then((res) => {
-    //         console.log(res.data)
-    //     })
-    // })
 
     return (
     <div>

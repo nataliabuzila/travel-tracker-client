@@ -2,7 +2,7 @@ import { useState, useEffect} from 'react';
 import SpinnerLoading from '../components/SpinnerLoading';
 import {getTrips} from "../utils/api"
 import {Row, Col} from 'react-bootstrap';
-import TripCard from '../components/TripCard';
+import TripCard from '../components/TripCardPublic';
 
 export default function TripsList() {
     const [trips, setTrips] = useState([])
@@ -11,6 +11,7 @@ export default function TripsList() {
     useEffect (() => {
         getTrips().then((res) => {
             setTrips(JSON.parse(res.data));
+            //console.log(res.data)
              setLoading(false);
         })
     }, [])
@@ -19,24 +20,11 @@ export default function TripsList() {
 
     return (
         <Row>
-                {trips.map((e) => (
-                    <Col key={e._id}>
-                        <TripCard trip={e} />
-                        {/* <Card>
-                            <Card.Img variant="top" src={e.imageURL}/>
-                            <Card.Body>
-                                <Card.Title>{e.title}</Card.Title>
-                                <Card.Text>{e.description}</Card.Text>
-                                 <LinkContainer to={`/trips/${e._id}`}>
-                                     <Button variant="secondary">Details</Button>
-                                 </LinkContainer>
-                            </Card.Body>
-                            <Card.Footer>
-                                <small className="text-muted">by {e.owner.name}</small>
-                            </Card.Footer>
-                        </Card> */}
-                    </Col>
-                ))}
+            {trips.map((e) => (
+                <Col key={e._id}>
+                    <TripCard trip={e} />
+                </Col>
+            ))}
         </Row>
     )
     
