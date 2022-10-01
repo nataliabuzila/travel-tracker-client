@@ -15,18 +15,22 @@ export default function TripDetails() {
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate();
 
-    const {user} = useContext (AuthContext)
+    const {user, isLoggedIn} = useContext (AuthContext)
 
-    useEffect (() => {
+    const refreshTrip = () => {
         getTrip(tripId).then((res) =>{
             setTrip(JSON.parse(res.data));
             setLoading(false)
         })
+    }
+    useEffect (() => {
+        refreshTrip();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tripId])
 
     const handleConfirm = () => {
-
         deleteTrip(tripId, user._id).then(() => {
+            console.log(tripId, user._id)
             navigate("/", {replace: true}) //replace:true doesnt allow user to navigate back to the page of the deleted trip 
         })
     }
@@ -35,19 +39,24 @@ export default function TripDetails() {
 
     return (
         <div>
-        <Card>
+        <Card style={{ maxWidth: "700px" }}>
             <Card.Img variant="top" src={trip.imageURL} />
             <Card.Body>
                 <div>
                     <Card.Title>{trip.title}</Card.Title>
-                    <Button variant="outline-primary" onClick={() => navigate(`/trips/${trip._id}/edit`)}>Edit</Button>
-                    <Button variant="outline-danger" onClick={handleConfirm}>Delete</Button>
+                    {isLoggedIn &&
+                    <>
+                        <Button variant="outline-primary" onClick={() => navigate(`/trips/${trip._id}/edit`)}>Edit</Button>
+                        <Button variant="outline-danger" onClick={handleConfirm}>Delete</Button>
+                    </>
+                    }
+                    
                 </div>
 
                 <Card.Text> Country: {trip.country}, City: {trip.city} </Card.Text>
                 <Card.Text> Start date: {trip.startDate}, End date: {trip.endDate} </Card.Text>
                 <Card.Text> Status: {trip.status}, Type: {trip.publicOrPrivate} </Card.Text>
-                <Card.Text>{trip.description}</Card.Text>
+                <Card.Text>Description: {trip.description}</Card.Text>
 
                 {trip.reviews.length > 0 && 
                     <Accordion>
@@ -62,7 +71,9 @@ export default function TripDetails() {
             </Card.Body>
         </Card>
 
-        <ReviewCreate tripId={tripId}/>
+        {isLoggedIn &&
+         <ReviewCreate refreshTrip={refreshTrip} trip={tripId}/>
+        }
 
         </div>
     )

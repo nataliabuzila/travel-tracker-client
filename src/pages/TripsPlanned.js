@@ -2,8 +2,8 @@ import { useState, useEffect} from 'react';
 import SpinnerLoading from '../components/SpinnerLoading';
 import {getTrips} from "../utils/api"
 import {Row, Col} from 'react-bootstrap';
-import TripCard from '../components/TripCard';
 import { useSearchParams } from 'react-router-dom';
+import TripCardPrivate from '../components/TripCardPrivate';
 
 export default function TripsPlanned() {
     const [trips, setTrips] = useState([])
@@ -38,7 +38,7 @@ export default function TripsPlanned() {
         <Row>
             {trips.filter(trip => trip.status.includes("Planned")).map((e) => (
                 <Col key={e._id}>
-                    <TripCard trip={e} />
+                    <TripCardPrivate trip={e} />
                 </Col>
             ))}
         </Row>

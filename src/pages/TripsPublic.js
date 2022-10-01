@@ -2,8 +2,8 @@ import { useState, useEffect} from 'react';
 import SpinnerLoading from '../components/SpinnerLoading';
 import {getTrips} from "../utils/api"
 import {Row, Col} from 'react-bootstrap';
-import TripCard from '../components/TripCard';
 import { useSearchParams } from 'react-router-dom';
+import TripCardPublic from '../components/TripCardPublic';
 
 export default function TripsPublic() {
     const [trips, setTrips] = useState([])
@@ -39,7 +39,7 @@ export default function TripsPublic() {
         <Row>
             {trips.filter(trip => trip.publicOrPrivate.includes("Public")).map((e) => (
                 <Col key={e._id}>
-                    <TripCard trip={e} />
+                    <TripCardPublic trip={e} />
                 </Col>
             ))}
         </Row>

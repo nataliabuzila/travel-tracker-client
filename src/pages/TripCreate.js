@@ -29,7 +29,6 @@ export default function TripCreate () {
     const [publicOrPrivate, setPublicOrPrivate] = useState("Private")
 
     const handleSubmit = (e) => {
-        //  console.log (values)
         e.preventDefault();
         // createTrip(e).then((res) => {
         // const data = res.data;

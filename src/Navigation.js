@@ -11,6 +11,8 @@ import IsPrivate from "./components/IsPrivate"
 import TripsPublic from "./pages/TripsPublic"
 import TripsCompleted from "./pages/TripsCompleted"
 import TripsPlanned from "./pages/TripsPlanned"
+import Profile from "./pages/Profile"
+import IsAnon from "./components/IsAnon"
 
 export default function Navigation () {
     return <Routes>
@@ -24,7 +26,8 @@ export default function Navigation () {
         <Route path="/trips/new" element={ <IsPrivate> <TripCreate /> </IsPrivate>} />
         <Route path="/trips/:tripId/edit" element={ <IsPrivate> <TripUpdate /> </IsPrivate>} />
         <Route path="/reviews/new" element={<IsPrivate><ReviewCreate /></IsPrivate>} />
-        <Route path="/signup" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<IsAnon><Register /></IsAnon>} />
+        <Route path="/login" element={<IsAnon><Login /></IsAnon>} />
+        <Route path="/profile/:userId" element={<Profile />} />
     </Routes>
 }

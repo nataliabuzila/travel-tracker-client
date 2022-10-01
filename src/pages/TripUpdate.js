@@ -21,11 +21,11 @@ export default function TripUpdate () {
     const [description, setDescription] = useState("");
     const [country, setCountry] = useState("");
     const [city, setCity] = useState("");
-    const [startDate, setStartDate] = useState();
-    const [endDate, setEndDate] = useState();
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
     // const [upload, setUpload] = useState();
-    const [status, setStatus] = useState("planned")
-    const [publicOrPrivate, setPublicOrPrivate] = useState("private")
+    const [status, setStatus] = useState("Planned")
+    const [publicOrPrivate, setPublicOrPrivate] = useState("Private")
 
 
     //retrieve the trip data from API
@@ -34,6 +34,7 @@ export default function TripUpdate () {
             setTrip(JSON.parse(res.data))
             //console.log(res.data)
             setLoading(false)
+            setTitle(res.data.title)
         })
     }, [tripId])
 
@@ -41,10 +42,10 @@ export default function TripUpdate () {
     const handleSubmit = (e) => {
         //console.log (e)
         e.preventDefault();
-        updateTrip(tripId, e).then((res) => {
+        updateTrip(tripId, {title, description, country, city, startDate, endDate, status, publicOrPrivate}).then((res) => {
             //  console.log("it worked")
-            const data = JSON.parse(res.data)
-
+            const data = JSON.parse(res.data);
+            console.log(data , " data")
             navigate(`/trips/${data._id}`)
     
         })
@@ -142,27 +143,17 @@ export default function TripUpdate () {
                             </Col>
                         </Form.Group> */}
 
-                        <Form.Group className="mb-3">
-                            <Form.Check
-                            type="checkbox"
-                            name="status"
-                            label={trip.status}
-                            id="status"
-                            checked={status}
-                            onChange={e=>setStatus(e.target.value)}
-                            />
-                        </Form.Group>
+                            <label>Planned or completed </label>
+                            <select value={status} onChange={e=>setStatus(e.target.value)}>
+                                <option value="Planned">Planned</option>
+                                <option value="Completed">Completed</option>
+                            </select>
 
-                        <Form.Group className="mb-3">
-                            <Form.Check
-                            type="checkbox"
-                            name="publicOrPrivate"
-                            label={trip.publicOrPrivate}
-                            id="publicOrPrivate"
-                            checked={publicOrPrivate}
-                            onChange={e=>setPublicOrPrivate(e.target.value)}
-                            />
-                        </Form.Group>
+                            <label>Private or public</label>
+                            <select value={publicOrPrivate} onChange={e=>setPublicOrPrivate(e.target.value)}>
+                                <option value="Private">Private</option>
+                                <option value="Public">Public</option>
+                            </select>
                         
                         <Button variant="primary" type="submit" md={{ span: 3, offset: 3 }}>
                             Submit

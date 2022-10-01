@@ -1,17 +1,17 @@
 import { Axios } from 'axios';
 
-const getCircularReplacer = () => {
-  const seen = new WeakSet();
-  return (key, value) => {
-    if (typeof value === 'object' && value !== null) {
-      if (seen.has(value)) {
-        return;
-      }
-      seen.add(value);
-    }
-    return value;
-  };
-};
+// const getCircularReplacer = () => {
+//   const seen = new WeakSet();
+//   return (key, value) => {
+//     if (typeof value === 'object' && value !== null) {
+//       if (seen.has(value)) {
+//         return;
+//       }
+//       seen.add(value);
+//     }
+//     return value;
+//   };
+// };
 
 const client = new Axios ({
     baseURL: "http://localhost:5005/api"
@@ -38,7 +38,7 @@ export function deleteTrip(tripId, ownerId) {
 // }
 
 export function updateTrip(tripId, data) {
-  return client.put(`/trips/${tripId}`, JSON.stringify(data), {
+  return client.put(`/trips/${tripId}`, data, {
     headers: {
       "Content-Type": 'application/json'
     }
@@ -59,7 +59,7 @@ export function register(data) {
         "Content-Type": "application/json"
       },
     });
-  }
+}
 
   export function login(data) {
     return client.post("/auth/login", JSON.stringify(data), {
@@ -75,4 +75,12 @@ export function register(data) {
         Authorization: `Bearer ${token}`
       }
     })
+  }
+
+  export function getUserById(userId) {
+    return client.get(`/profile/${userId}`)
+  }
+
+  export function deleteUser(userId) {
+    return client.delete(`/profile/${userId}`)
   }
