@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/auth.context";
 import axios from 'axios';
 
-const API = "http://localhost:5005/api"
+const API = "https://busy-pear-puppy-kilt.cyclic.app/api"
 
 export default function Login() {
 

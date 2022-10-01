@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from '../context/auth.context'
 
-const API_URL = "http://localhost:5005/api"
+const API_URL = "https://busy-pear-puppy-kilt.cyclic.app/api"
 
 export default function TripCreate () {
 
